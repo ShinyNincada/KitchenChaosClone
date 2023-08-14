@@ -16,6 +16,8 @@ public class DeliverManager : MonoBehaviour
     public float spawnTimer = 4f;
     private float spawnTimerCD = 4f;
     public DeliveryCounter deliverCounter;
+    int successfullRecipeAmount;
+    int failedRecipeAmount;
 
     private void Awake() {
         Instance = this;
@@ -58,6 +60,7 @@ public class DeliverManager : MonoBehaviour
 
                 if(plateContentsMatchesRecipe){
                     Debug.Log("Nice!!");
+                    ++successfullRecipeAmount ;
                     waitingRecipeSOList.RemoveAt(i);
                     OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
                     OnRecipeSuccess?.Invoke(this, EventArgs.Empty);
@@ -65,11 +68,21 @@ public class DeliverManager : MonoBehaviour
                 }
             }
         }
+        failedRecipeAmount++;
         OnRecipeFailed?.Invoke(this, EventArgs.Empty);
         Debug.Log("Wrong recipe!!");
     }
 
     public List<RecipeSO> GetWaitingList(){
         return waitingRecipeSOList;
+    }
+
+    public int GetSuccessRecipes(){
+        Debug.Log(successfullRecipeAmount);
+        return successfullRecipeAmount;
+    }
+
+    public int GetFailedRecipes(){
+        return failedRecipeAmount;
     }
 }

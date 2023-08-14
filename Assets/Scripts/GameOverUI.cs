@@ -4,12 +4,13 @@ using UnityEngine;
 using TMPro;
 using System;
 
-public class CountdownUI : MonoBehaviour
+public class GameOverUI : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI countdownText;
+    [SerializeField] private TextMeshProUGUI recipesDeliveredText;
 
-    private void Start() {
+     private void Start() {
         GameManager.Instance.OnGameStateChanged += GameManage_OnGameStateChanged;
+
         Hide();
     }
 
@@ -17,16 +18,13 @@ public class CountdownUI : MonoBehaviour
 
     private void GameManage_OnGameStateChanged(object sender, EventArgs e)
     {
-        if(GameManager.Instance.IsCountDown()){
+        if(GameManager.Instance.IsGameOver()){
             Show();
+            recipesDeliveredText.text = DeliverManager.Instance.GetSuccessRecipes().ToString();
         }
         else{
             Hide();
         }
-    }
-
-    private void Update() {
-        countdownText.text = Mathf.Ceil(GameManager.Instance.GetCountDownTimer()).ToString();
     }
 
     private void Hide()

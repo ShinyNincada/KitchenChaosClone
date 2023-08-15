@@ -7,6 +7,9 @@ public class CuttingCounter : BaseCounter, IHasProgress
 {
     public event EventHandler<IHasProgress.OnProgressChangedEventArgs> OnProgressChanged;   
     public event EventHandler OnCut;
+    public static new void ResetStaticData(){
+        OnAnyCut = null;
+    }
     public static EventHandler OnAnyCut;
     [SerializeField] private CuttingRecipe[] cuttingRecipes;
     [SerializeField] private KitchenSO cutKitchenObjectSO;
@@ -73,6 +76,7 @@ public class CuttingCounter : BaseCounter, IHasProgress
                 });
 
                 OnCut?.Invoke(this, EventArgs.Empty);
+                Debug.Log(OnAnyCut.GetInvocationList().Length);
                 OnAnyCut?.Invoke(this, EventArgs.Empty);
             
                 if(recipeSO != null && cuttingProgress >= recipeSO.cuttingProgressMax)

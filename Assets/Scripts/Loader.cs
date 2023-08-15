@@ -17,7 +17,7 @@ public static class Loader
     }
 
     public enum Scene {
-        MainMenuScene,
+        MainMenu,
             GameScene,
         LoadingScene
     }

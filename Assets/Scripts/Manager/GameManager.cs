@@ -28,7 +28,12 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        GameInput.Instance.OnPauseAction += GameInput_OnPauseAction;   
+    }
+
+    private void GameInput_OnPauseAction(object sender, EventArgs e)
+    {
+        ToggleGamePause();
     }
 
     // Update is called once per frame

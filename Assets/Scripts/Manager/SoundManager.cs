@@ -5,7 +5,17 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
+    public static SoundManager Instance { get; private set; }
     [SerializeField] private AudioClipSO audioClipSO;
+    private float volume = 1f;
+    private void Awake() {
+        if(Instance == null){
+            Instance = this;
+        }
+        else {
+            Debug.LogWarning("Duplicates Instance!!");
+        }
+    }
     private void Start() {
         DeliverManager.Instance.OnRecipeSuccess +=  DeliverManager_OnRecipeSuccess;
         DeliverManager.Instance.OnRecipeFailed += DeliverManager_OnRecipeFailed;
@@ -59,7 +69,18 @@ public class SoundManager : MonoBehaviour
         PlaySound(audioClips[UnityEngine.Random.Range(0, audioClips.Length)], position, volume);
     }
 
-    void PlaySound(AudioClip audioclip, Vector3 position, float volume = 1f){
-        AudioSource.PlayClipAtPoint(audioclip, position, volume);
+    void PlaySound(AudioClip audioclip, Vector3 position, float volumeMultiplier = 1f){
+        AudioSource.PlayClipAtPoint(audioclip, position, volume * volumeMultiplier);
+    }
+
+    public void ChangeVolume(){
+        volume += .1f;
+        if(volume > 1f){
+            volume = 0f;
+        }
+    }
+
+    public float GetVolume(){
+        return volume;
     }
 }
